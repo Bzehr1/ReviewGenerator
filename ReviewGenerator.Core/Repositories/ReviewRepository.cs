@@ -16,6 +16,7 @@ namespace ReviewGenerator.Core.Repositories
             {
                 Review review = new Review();
                 review.ReviewText = await GetReviewText();
+                review.Overall = await GetReviewRating();
                 return review;
             });
         }
@@ -36,6 +37,15 @@ namespace ReviewGenerator.Core.Repositories
             return await Task.Run(() =>
             {
                 return string.Join(" ", _chain.Chain(new Random()));
+            });
+        }
+
+        private async Task<int> GetReviewRating()
+        {
+            return await Task.Run(() =>
+            {
+                Random rnd = new Random();
+                return rnd.Next(1, 6);
             });
         }
 
