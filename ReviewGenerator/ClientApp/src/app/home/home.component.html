@@ -1,0 +1,17 @@
+<div class="row justify-content-around">
+  <div class="col-6 text-center">
+    <div>
+      <button class="btn btn-primary" (click)="generateReview()">Generate Review</button>
+    </div>
+
+    <div *ngIf="review" class="review-container">
+      <div>
+        {{review.reviewText}}
+      </div>
+      <div>
+        <star-rating [starType]="'svg'" [rating]="review.overall"></star-rating>
+      </div>
+    </div>
+  </div>
+</div>
+
