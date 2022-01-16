@@ -3,6 +3,7 @@ using ReviewGenerator.Core.Interfaces;
 using ReviewGenerator.Core.Models;
 using System;
 using System.IO;
+using System.IO.Compression;
 using System.Threading.Tasks;
 
 namespace ReviewGenerator.Core.Services
@@ -31,7 +32,8 @@ namespace ReviewGenerator.Core.Services
                 var serializer = new JsonSerializer();
 
                 using (var s = File.Open(path, FileMode.Open))
-                using (var sr = new StreamReader(s))
+                using (var zip = new GZipStream(s, CompressionMode.Decompress))
+                using (var sr = new StreamReader(zip))
                 using (var jsonTextReader = new JsonTextReader(sr))
                 {
                     jsonTextReader.SupportMultipleContent = true;

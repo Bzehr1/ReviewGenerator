@@ -48,7 +48,7 @@ namespace ReviewGenerator
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDataReaderService dataReaderService)
         {
-            //dataReaderService.ReadData("data.json").Wait();
+            dataReaderService.ReadData("data.json.gz").Wait();
 
             if (env.IsDevelopment())
             {
