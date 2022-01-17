@@ -1,44 +1,36 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
-using ReviewGenerator.Core.Interfaces;
-using ReviewGenerator.Core.Services;
-using System;
-using System.Threading.Tasks;
-using System.IO;
 using ReviewGenerator.Controllers;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using ReviewGenerator.Core.Interfaces;
+using Xunit;
 
-namespace ReviewGenerator.Test
+namespace ReviewGenerator.Tests
 {
     public class ReviewsControllerTestFixture
     {
         private ReviewsController reviewsController;
         private Mock<ILogger<ReviewsController>> loggerMock;
         private Mock<IReviewService> reviewServiceMock;
-
-        [SetUp]
-        public void Setup()
+        public ReviewsControllerTestFixture()
         {
             loggerMock = new Mock<ILogger<ReviewsController>>();
             reviewServiceMock = new Mock<IReviewService>();
             reviewsController = new ReviewsController(loggerMock.Object, reviewServiceMock.Object);
         }
 
-        [Test]
+        [Fact]
         public void GetReview_Returns_NotNullReview()
         {
-            Assert.IsNotNull(reviewsController.GenerateReview());
+            Assert.NotNull(reviewsController.GenerateReview());
         }
 
-        [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(1000)]
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(1000)]
         public void GetReviews_Returns_NotNullReviewList(int numberOfReviews)
         {
-            Assert.IsNotNull(reviewsController.GenerateReviews(numberOfReviews));
+            Assert.NotNull(reviewsController.GenerateReviews(numberOfReviews));
         }
 
     }
