@@ -1,29 +1,25 @@
-﻿using NUnit.Framework;
-using Moq;
+﻿using Moq;
 using ReviewGenerator.Core.Interfaces;
 using ReviewGenerator.Core.Services;
-using System;
-using System.Threading.Tasks;
-using System.IO;
+using Xunit;
 
-namespace ReviewGenerator.Test
+namespace ReviewGenerator.Tests
 {
     public class ReviewServiceTestFixture
     {
         private ReviewService reviewService;
         private Mock<IReviewRepository> reviewRepositoryMock;
 
-        [SetUp]
-        public void Setup()
+        public ReviewServiceTestFixture()
         {
             reviewRepositoryMock = new Mock<IReviewRepository>();
             reviewService = new ReviewService(reviewRepositoryMock.Object);
         }
 
-        [Test]
+        [Fact]
         public void GetReview_Returns_NotNullReview()
         {
-            Assert.IsNotNull(reviewService.GetReview());
+            Assert.NotNull(reviewService.GetReview());
         }
 
     }
