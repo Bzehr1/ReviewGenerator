@@ -1,6 +1,7 @@
 ﻿using Markov;
 using ReviewGenerator.Core.Interfaces;
 using ReviewGenerator.Core.Models;
+using ReviewGenerator_Core;
 using System;
 using System.Threading.Tasks;
 
@@ -12,11 +13,11 @@ namespace ReviewGenerator.Core.Repositories
 
         public async Task<Review> GetReview()
         {
-            return await Task.Run(async () =>
+            return await Task.Run(() =>
             {
                 Review review = new Review();
-                review.ReviewText = await GetReviewText();
-                review.Overall = await GetReviewRating();
+                review.ReviewText = GetReviewText();
+                review.Overall = GetReviewRating(review.ReviewText);
                 return review;
             });
         }
@@ -32,21 +33,24 @@ namespace ReviewGenerator.Core.Repositories
             });
         }
 
-        private async Task<string> GetReviewText()
+        private string GetReviewText()
         {
-            return await Task.Run(() =>
-            {
-                return string.Join(" ", _chain.Chain(new Random()));
-            });
+            return string.Join(" ", _chain.Chain(new Random()));
         }
 
-        private async Task<int> GetReviewRating()
+        private int GetReviewRating(string reviewText)
         {
-            return await Task.Run(() =>
+
+            var reviewData = new SentimentModel.ModelInput()
             {
-                Random rnd = new Random();
-                return rnd.Next(1, 6);
-            });
+                Col0 = reviewText
+            };
+
+            var result = SentimentModel.Predict(reviewData);
+
+            Random rnd = new Random();
+
+            return result.Prediction == 1 ? rnd.Next(3, 6) : rnd.Next(1, 3);
         }
 
     }

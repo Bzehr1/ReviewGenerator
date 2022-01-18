@@ -1,19 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <Folder Include="Interfaces\" />
     <Folder Include="Models\" />
     <Folder Include="Repositories\" />
     <Folder Include="Services\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="Markov" Version="2.0.0" />
+    <PackageReference Include="Microsoft.ML" Version="1.6.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
-
+  <ItemGroup Label="SentimentModel">
+    <None Include="SentimentModel.consumption.cs">
+      <DependentUpon>SentimentModel.mbconfig</DependentUpon>
+    </None>
+    <None Include="SentimentModel.training.cs">
+      <DependentUpon>SentimentModel.mbconfig</DependentUpon>
+    </None>
+    <None Include="SentimentModel.zip">
+      <DependentUpon>SentimentModel.mbconfig</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
